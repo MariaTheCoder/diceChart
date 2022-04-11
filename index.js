@@ -2,16 +2,6 @@ const throwDiceButton = document.getElementById("roll-dice-button");
 const resetDiceButton = document.getElementById("reset-rolls");
 let myChart;
 
-// we count each roll of x eyes and insert in an object
-const diceRolls = {
-  one: 0,
-  two: 0,
-  three: 0,
-  four: 0,
-  five: 0,
-  six: 0,
-};
-
 const diceData = [];
 
 throwDiceButton.addEventListener("click", evaluateRoll);
@@ -21,15 +11,32 @@ renderChart();
 
 // create a function that resets occurance of rolled dice
 function resetDiceRolls() {
-  Object.keys(diceRolls).forEach((key) => {
-    diceRolls[key] = 0;
-  });
+  // TODO: fix this
+  diceData.forEach((e, i) => (diceData[i] = 0));
 }
 
 // create a function that after roll adds the result to the diceRolls object
 function renderChart() {
   // array containing labels
-  const labels = ["One", "Two", "Three", "Four", "Five", "Six"];
+  const labels = [
+    // "Two",
+    "Three",
+    "Four",
+    "Five",
+    "Six",
+    "Seven",
+    "Eight",
+    "Nine",
+    "Ten",
+    "Eleven",
+    "Twelve",
+    "Thirteen",
+    "Fourteen",
+    "Fifteen",
+    "Sixteen",
+    "Seventeen",
+    "Eighteen",
+  ];
 
   const data = {
     labels: labels,
@@ -58,41 +65,21 @@ function renderChart() {
   myChart = new Chart(document.getElementById("myChart"), config);
 }
 
-function updateChart(newData) {
-  newData.forEach((e, i) => {
-    diceData[i] = e;
-  });
-  console.log(diceData);
+function evaluateRoll() {
+  const sum = rollDice(3);
+
+  if (!diceData[sum - 3]) {
+    diceData[sum - 3] = 0;
+  }
+  diceData[sum - 2] += 1;
   myChart.update();
 }
 
-function evaluateRoll() {
-  const roll = rollDice();
-
-  if (roll === 1) {
-    diceRolls.one = diceRolls.one + 1;
-  } else if (roll === 2) {
-    diceRolls.two = diceRolls.two + 1;
-  } else if (roll === 3) {
-    diceRolls.three = diceRolls.three + 1;
-  } else if (roll === 4) {
-    diceRolls.four = diceRolls.four + 1;
-  } else if (roll === 5) {
-    diceRolls.five = diceRolls.five + 1;
-  } else {
-    diceRolls.six = diceRolls.six + 1;
-  }
-
-  const newData = [];
-  for (const property in diceRolls) {
-    const element = diceRolls[property];
-    newData.push(element);
-  }
-
-  updateChart(newData);
-}
-
 // create a function that rolls a dice and returns a number
-function rollDice() {
-  return Math.floor(Math.random() * 6) + 1;
+function rollDice(numberOfDice) {
+  let sum = 0;
+  for (let i = 0; i < numberOfDice; i++) {
+    sum += Math.floor(Math.random() * 6) + 1;
+  }
+  return sum;
 }
