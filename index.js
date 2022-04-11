@@ -1,3 +1,5 @@
+const button = document.getElementById("roll-dice-button");
+
 // we count each roll of x eyes and insert in an object
 const diceRolls = {
   one: 0,
@@ -7,6 +9,8 @@ const diceRolls = {
   five: 0,
   six: 0,
 };
+
+button.addEventListener("click", evaluateRoll);
 
 // create a function that after roll adds the result to the diceRolls object
 function evaluateRoll() {
@@ -33,5 +37,3 @@ function evaluateRoll() {
 function rollDice() {
   return Math.floor(Math.random() * 6) + 1;
 }
-
-evaluateRoll();
