@@ -1,5 +1,6 @@
 const throwDiceButton = document.getElementById("roll-dice-button");
 const resetDiceButton = document.getElementById("reset-rolls");
+let myChart;
 
 // we count each roll of x eyes and insert in an object
 const diceRolls = {
@@ -10,6 +11,8 @@ const diceRolls = {
   five: 0,
   six: 0,
 };
+
+const diceData = [];
 
 throwDiceButton.addEventListener("click", evaluateRoll);
 resetDiceButton.addEventListener("click", resetDiceRolls);
@@ -27,13 +30,6 @@ function resetDiceRolls() {
 function renderChart() {
   // array containing labels
   const labels = ["One", "Two", "Three", "Four", "Five", "Six"];
-  const diceData = [];
-
-  for (const property in diceRolls) {
-    const element = diceRolls[property];
-
-    diceData.push(element);
-  }
 
   const data = {
     labels: labels,
@@ -59,11 +55,15 @@ function renderChart() {
     },
   };
 
-  new Chart(document.getElementById("myChart"), config);
+  myChart = new Chart(document.getElementById("myChart"), config);
 }
 
-function updateChart() {
-  console.log(chart.data.datasets);
+function updateChart(newData) {
+  newData.forEach((e, i) => {
+    diceData[i] = e;
+  });
+  console.log(diceData);
+  myChart.update();
 }
 
 function evaluateRoll() {
@@ -83,7 +83,13 @@ function evaluateRoll() {
     diceRolls.six = diceRolls.six + 1;
   }
 
-  console.log(diceRolls);
+  const newData = [];
+  for (const property in diceRolls) {
+    const element = diceRolls[property];
+    newData.push(element);
+  }
+
+  updateChart(newData);
 }
 
 // create a function that rolls a dice and returns a number
