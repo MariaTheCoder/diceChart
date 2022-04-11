@@ -1,4 +1,5 @@
-const button = document.getElementById("roll-dice-button");
+const throwDiceButton = document.getElementById("roll-dice-button");
+const resetDiceButton = document.getElementById("reset-rolls");
 
 // we count each roll of x eyes and insert in an object
 const diceRolls = {
@@ -10,7 +11,18 @@ const diceRolls = {
   six: 0,
 };
 
-button.addEventListener("click", evaluateRoll);
+throwDiceButton.addEventListener("click", evaluateRoll);
+resetDiceButton.addEventListener("click", resetDiceRolls);
+
+// create a function that resets occurance of rolled dice
+function resetDiceRolls() {
+  Object.keys(diceRolls).forEach((key) => {
+    diceRolls[key] = 0;
+  });
+
+  console.log(diceRolls);
+  return diceRolls;
+}
 
 // create a function that after roll adds the result to the diceRolls object
 function evaluateRoll() {
